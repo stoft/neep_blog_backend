@@ -1,0 +1,34 @@
+<%= form_for @changeset, @action, fn f -> %>
+  <% IO.inspect f %>
+  <%= if f.errors != [] do %>
+    <div class="alert alert-danger">
+      <p>Oops, something went wrong! Please check the errors below:</p>
+      <ul>
+        <%= for {attr, message} <- f.errors do %>
+          <li><%= humanize(attr) %> <%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="form-group">
+    <%= label f, :title, "Title" %>
+    <%= text_input f, :title, class: "form-control" %>
+  </div>
+
+  <div class="form-group">
+    <%= label f, :body, "Body" %>
+    <%= textarea f, :body, class: "form-control" %>
+  </div>
+
+  <% if(f.model.__meta__.state == :loaded) do %>
+  <div class="form-group">
+    <%= label f, :updated_at, "Updated at" %>
+    <%= content_tag :span, Map.get(f, :model) |> Map.get(:updated_at), class: "label label-default" %>
+  </div>
+  <% end %>
+
+  <div class="form-group">
+    <%= submit "Submit", class: "btn btn-primary" %>
+  </div>
+<% end %>

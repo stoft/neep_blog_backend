@@ -1,0 +1,15 @@
+<div class="jumbotron">
+  <h2>Welcome to NEEP!</h2>
+  <p class="lead">An experimental blog app built on <a href="http://neo4j.com">Neo4J</a>, <a href="http://elixir-lang.org">Elixir</a>, <a href="http://emberjs.com">EmberJS</a> and <a href="http://phoenixframework.org">Phoenix</a>!</p>
+</div>
+
+<div class="col-md-12">
+<%= for article <- @articles do %>
+    <div class="col-md-12">
+      <h3><%= link article.title, to: article_path(@conn, :show, article), class: "" %></h3>
+      <div class="small">Published: <%= article.inserted_at %></div>
+      <p><%= article.body %></p>
+    </div>
+<% end %>
+</div>
+
