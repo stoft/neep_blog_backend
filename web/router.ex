@@ -20,7 +20,10 @@ defmodule NeepBlogBackend.Router do
   end
 
   # Other scopes may use custom stacks.
-  # scope "/api", NeepBlogBackend do
-  #   pipe_through :api
-  # end
+  scope "/api", NeepBlogBackend do
+    pipe_through :api
+
+    resources "/articles", ArticleController
+    # resources "/comments", CommentController
+  end
 end

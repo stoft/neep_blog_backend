@@ -8,12 +8,13 @@ defmodule NeepBlogBackend.ArticleController do
   def index(conn, _params) do
     # articles = Repo.all(Article)
     articles = Neo4jConnector.all!(%Article{})
-    render(conn, "index.html", articles: articles)
+    # render(conn, "index.html", articles: articles)
+    render(conn, :index, articles: articles)
   end
 
   def new(conn, _params) do
     changeset = Article.changeset(%Article{})
-    render(conn, "new.html", changeset: changeset)
+    render(conn, :new, changeset: changeset)
   end
 
   def create(conn, %{"article" => article_params}) do
@@ -27,7 +28,7 @@ defmodule NeepBlogBackend.ArticleController do
       |> put_flash(:info, "Article created successfully.")
       |> redirect(to: article_path(conn, :index))
     else
-      render(conn, "new.html", changeset: changeset)
+      render(conn, :new, changeset: changeset)
     end
   end
 
@@ -35,7 +36,7 @@ defmodule NeepBlogBackend.ArticleController do
     # article = Repo.get!(Article, id)
     article = Neo4jConnector.get!(%Article{}, id)
     IO.inspect article
-    render(conn, "show.html", article: article)
+    render(conn, :show, article: article)
   end
 
   def edit(conn, %{"id" => id}) do
@@ -43,7 +44,7 @@ defmodule NeepBlogBackend.ArticleController do
     article = Neo4jConnector.get!(%Article{}, id)
     changeset = Article.changeset(article)
     IO.inspect changeset
-    render(conn, "edit.html", article: article, changeset: changeset)
+    render(conn, :edit, article: article, changeset: changeset)
   end
 
   def update(conn, %{"id" => id, "article" => article_params}) do
@@ -59,7 +60,7 @@ defmodule NeepBlogBackend.ArticleController do
       |> put_flash(:info, "Article updated successfully.")
       |> redirect(to: article_path(conn, :index))
     else
-      render(conn, "edit.html", article: article, changeset: changeset)
+      render(conn, :edit, article: article, changeset: changeset)
     end
   end
 
