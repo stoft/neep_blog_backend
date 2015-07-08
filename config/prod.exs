@@ -13,8 +13,14 @@ use Mix.Config
 # which you typically run after static files are built.
 config :neep_blog_backend, NeepBlogBackend.Endpoint,
   http: [port: {:system, "PORT"}],
-  url: [host: "example.com", port: 80],
+  url: [host: "neep_blog_backend.herokuapp.com", port: 80],
   cache_static_manifest: "priv/static/manifest.json"
+
+config :neep_blog_backend, NeepBlogBackend.Neo4j,
+  username: System.get_env("NEO4J_USER"),
+  password: System.get_env("NEO4J_PASSWORD"),
+  host: "localhost",
+  port: "7474"
 
 # ## SSL Support
 #
@@ -49,4 +55,4 @@ config :logger, level: :info
 
 # Finally import the config/prod.secret.exs
 # which should be versioned separately.
-import_config "prod.secret.exs"
+# import_config "prod.secret.exs"

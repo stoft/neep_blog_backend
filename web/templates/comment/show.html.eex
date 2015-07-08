@@ -1,0 +1,10 @@
+<h2>Show comment</h2>
+
+<ul>
+  <li>
+    <strong>Body:</strong>
+    <%= @article.body %>
+  </li>
+</ul>
+
+<%= link "Back", to: article_comment_path(@conn, :index, @article.article_id) %>

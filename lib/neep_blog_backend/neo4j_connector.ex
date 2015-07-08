@@ -1,6 +1,6 @@
 defmodule Neo4jConnector do
   use Timex
- 
+
   def get!(type, id) do
     url = compose_url(["node/", id])
     response = HTTPoison.get!(url, [], [hackney: get_basic_auth_info])
@@ -20,7 +20,17 @@ defmodule Neo4jConnector do
       |> Enum.map(&convert_neo4j_to_ecto(type, &1))
     list
   end
- 
+
+  def all!(type, query) do
+    url = compose_url(["label/", extract_type(type), "/nodes"])
+    response = HTTPoison.get!(url, [], [hackney: get_basic_auth_info])
+    list = response
+      |> Map.get(:body)
+      |> Poison.decode!
+      |> Enum.map(&convert_neo4j_to_ecto(type, &1))
+    list    
+  end
+
   def insert!(changeset) do
     url = compose_url(["node/"])
     model = Ecto.Changeset.apply_changes(changeset)
@@ -39,7 +49,7 @@ defmodule Neo4jConnector do
     url = compose_url(["node/", id, "/labels"])
     HTTPoison.post!(url, json, [], [hackney: get_basic_auth_info])
   end
-  
+
   def update!(changeset) do
     model = Ecto.Changeset.apply_changes(changeset)
     %{id: id} = model
@@ -52,7 +62,7 @@ defmodule Neo4jConnector do
     url = compose_url(["node/", id, "/properties"])
     HTTPoison.put!(url, json, [], [hackney: get_basic_auth_info])
   end
- 
+
   def delete!(%{id: id}) do
     url = compose_url(["node/", id])
     HTTPoison.delete!(url, [], [hackney: get_basic_auth_info])

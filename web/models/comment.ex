@@ -1,15 +1,14 @@
-defmodule NeepBlogBackend.Article do
+defmodule NeepBlogBackend.Comment do
   use NeepBlogBackend.Web, :model
 
-  schema "articles" do
-    field :title, :string
+  schema "comments" do
     field :body, :string
-    has_many :comments, Comment
+    belongs_to :post, Post
 
     timestamps
   end
 
-  @required_fields ~w(title body)
+  @required_fields ~w(body)
   @optional_fields ~w()
 
   @doc """

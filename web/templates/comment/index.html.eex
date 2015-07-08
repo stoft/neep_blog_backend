@@ -1,0 +1,25 @@
+<h2>Listing articles</h2>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Body</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+<%= for comment <- @comments do %>
+    <tr>
+      <td><%= String.slice(comment.body, 1..50) %>...</td>
+
+      <td class="text-right">
+        <%= link "Show", to: article_comment_path(@conn, :show, comment), class: "btn btn-default btn-xs" %>
+        <%= link "Edit", to: article_comment_path(@conn, :edit, comment), class: "btn btn-default btn-xs" %>
+        <%= link "Delete", to: article_comment_path(@conn, :delete, comment), method: :delete, class: "btn btn-danger btn-xs" %>
+      </td>
+    </tr>
+<% end %>
+  </tbody>
+</table>
+
+<%= link "New comment", to: article_comment_path(@conn, :new, @article.article_id) %>

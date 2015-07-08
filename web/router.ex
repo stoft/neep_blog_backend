@@ -16,14 +16,18 @@ defmodule NeepBlogBackend.Router do
     pipe_through :browser # Use the default browser stack
 
     get "/", PageController, :index
-    resources "/articles", ArticleController
+    resources "/articles", ArticleController do
+      resources "/comments", CommentController
+    end
   end
 
   # Other scopes may use custom stacks.
   scope "/api", NeepBlogBackend do
     pipe_through :api
 
-    resources "/articles", ArticleController
-    # resources "/comments", CommentController
+    # get "/", PageController, :api
+    resources "/articles", ArticleController do
+      resources "/comments", CommentController
+    end
   end
 end
